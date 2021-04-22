@@ -68,7 +68,7 @@ object CreatureStore {
     fun getFavoriteCreatures(context: Context): List<Creature>? =
         Favorites.getFavorites(context)?.mapNotNull { getCreatureById(it) }
 
-    fun getCretureFoods(creature: Creature): List<Food> =
+    fun getCreatureFoods(creature: Creature): List<Food> =
         creature.foods.mapNotNull { getFoodById(it) }
 
     fun getCreatureById(id: Int) = creatures.firstOrNull { it.id == id }
