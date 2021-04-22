@@ -51,18 +51,18 @@ class FavoritesFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        favoritesRecyclerView.layoutManager = LinearLayoutManager(activity)
+        favoritesRecyclerView.adapter = adapter
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         return inflater.inflate(R.layout.fragment_favorites, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        favoritesRecyclerView.layoutManager = LinearLayoutManager(activity)
-        favoritesRecyclerView.adapter = adapter
     }
 
     override fun onResume() {
@@ -73,4 +73,5 @@ class FavoritesFragment : Fragment() {
             }
         }
     }
+
 }

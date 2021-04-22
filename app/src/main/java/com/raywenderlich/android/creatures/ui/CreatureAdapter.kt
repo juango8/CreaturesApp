@@ -1,6 +1,5 @@
 package com.raywenderlich.android.creatures.ui
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,11 +22,7 @@ class CreatureAdapter(private val creatures: MutableList<Creature>) :
             this.creature = creature
             val context = itemView.context
             itemView.creatureImage.setImageResource(
-                context.resources.getIdentifier(
-                    creature.uri,
-                    null,
-                    context.packageName
-                )
+                context.resources.getIdentifier(creature.uri, null, context.packageName)
             )
             itemView.fullName.text = creature.fullName
             itemView.nickname.text = creature.nickname
@@ -47,16 +42,16 @@ class CreatureAdapter(private val creatures: MutableList<Creature>) :
         return ViewHolder(parent.inflate(R.layout.list_item_creature))
     }
 
+    override fun getItemCount() = creatures.size
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(creatures[position])
     }
 
-    override fun getItemCount() = creatures.size
-
-    @SuppressLint("NotifyDataSetChanged")
     fun updateCreatures(creatures: List<Creature>) {
         this.creatures.clear()
         this.creatures.addAll(creatures)
         notifyDataSetChanged()
     }
+
 }

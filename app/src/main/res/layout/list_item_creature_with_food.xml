@@ -13,14 +13,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/creature_bear_sleepy" />
+        app:srcCompat="@drawable/creature_cat_derp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/foodRecyclerView"
         android:layout_width="0dp"
         android:layout_height="@dimen/list_item_creature_height"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/creatureImage"
+        app:layout_constraintStart_toEndOf="@+id/creatureImage"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

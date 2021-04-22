@@ -29,11 +29,7 @@ class CreatureWithFoodAdapter(private val creatures: MutableList<Creature>) :
             this.creature = creature
             val context = itemView.context
             itemView.creatureImage.setImageResource(
-                context.resources.getIdentifier(
-                    creature.uri,
-                    null,
-                    context.packageName
-                )
+                context.resources.getIdentifier(creature.uri, null, context.packageName)
             )
             setupFoods()
         }
@@ -51,7 +47,7 @@ class CreatureWithFoodAdapter(private val creatures: MutableList<Creature>) :
                 LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
             itemView.foodRecyclerView.adapter = adapter
 
-            val foods = CreatureStore.getCretureFoods(creature)
+            val foods = CreatureStore.getCreatureFoods(creature)
             adapter.updateFoods(foods)
         }
 
@@ -64,9 +60,9 @@ class CreatureWithFoodAdapter(private val creatures: MutableList<Creature>) :
         return holder
     }
 
+    override fun getItemCount() = creatures.size
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(creatures[position])
     }
-
-    override fun getItemCount() = creatures.size
 }

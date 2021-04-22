@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/creature_bear_sleepy" />
+        app:srcCompat="@drawable/creature_cat_derp" />
 
     <TextView
         android:id="@+id/fullName"
@@ -28,6 +28,7 @@
         android:textSize="@dimen/creature_name_text_size"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/nickname"
         app:layout_constraintStart_toEndOf="@+id/creatureImage"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
@@ -39,9 +40,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_standard"
         android:layout_marginBottom="@dimen/padding_half"
-        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/creatureImage"
         app:layout_constraintTop_toBottomOf="@+id/fullName"
         tools:text="Nickname" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

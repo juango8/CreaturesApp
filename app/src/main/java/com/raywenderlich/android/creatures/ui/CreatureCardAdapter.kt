@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.android.creatures.R
 import com.raywenderlich.android.creatures.app.inflate
 import com.raywenderlich.android.creatures.model.Creature
-import kotlinx.android.synthetic.main.list_item_creature.view.creatureImage
 import kotlinx.android.synthetic.main.list_item_creature_card.view.*
 
 class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
@@ -30,7 +29,6 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
             val imageResource =
                 context.resources.getIdentifier(creature.uri, null, context.packageName)
             itemView.creatureImage.setImageResource(imageResource)
-//            Picasso.get().load(creature.uri).into(itemView.creatureImage)
             itemView.fullName.text = creature.fullName
             setBackgroundColors(context, imageResource)
         }
@@ -67,15 +65,18 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
                     0.114 * Color.blue(color)) / 255
             return darkness >= 0.5
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.list_item_creature_card))
     }
 
+    override fun getItemCount() = creatures.size
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(creatures[position])
     }
 
-    override fun getItemCount() = creatures.size
+
 }
