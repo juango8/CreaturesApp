@@ -1,5 +1,6 @@
 package com.raywenderlich.android.creatures.ui
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,16 +11,17 @@ import kotlinx.android.synthetic.main.list_item_food.view.*
 
 class FoodAdapter(private val foods: MutableList<Food>) :
     RecyclerView.Adapter<FoodAdapter.ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent.inflate(R.layout.list_item_food))
     }
 
     override fun getItemCount() = foods.size
 
-    override fun onBindViewHolder(holder: FoodAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(foods[position])
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateFoods(foods: List<Food>) {
         this.foods.clear()
         this.foods.addAll(foods)
