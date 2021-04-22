@@ -12,7 +12,6 @@ import com.raywenderlich.android.creatures.R
 import com.raywenderlich.android.creatures.app.inflate
 import com.raywenderlich.android.creatures.model.Creature
 import kotlinx.android.synthetic.main.list_item_creature.view.creatureImage
-import kotlinx.android.synthetic.main.list_item_creature.view.nickname
 import kotlinx.android.synthetic.main.list_item_creature_card.view.*
 
 class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
@@ -31,7 +30,8 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
             val imageResource =
                 context.resources.getIdentifier(creature.uri, null, context.packageName)
             itemView.creatureImage.setImageResource(imageResource)
-            itemView.nickname.text = creature.nickname
+//            Picasso.get().load(creature.uri).into(itemView.creatureImage)
+            itemView.fullName.text = creature.fullName
             setBackgroundColors(context, imageResource)
         }
 
@@ -54,9 +54,9 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
                         )
                     )
                     itemView.creatureCard.setBackgroundColor(backgroundColor)
-                    itemView.nicknameHolder.setBackgroundColor(backgroundColor)
+                    itemView.nameHolder.setBackgroundColor(backgroundColor)
                     val textColor = if (isColorDark(backgroundColor)) Color.WHITE else Color.BLACK
-                    itemView.nickname.setTextColor(textColor)
+                    itemView.fullName.setTextColor(textColor)
                 }
             }
         }
