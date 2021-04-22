@@ -15,5 +15,4 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/food_banana" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
