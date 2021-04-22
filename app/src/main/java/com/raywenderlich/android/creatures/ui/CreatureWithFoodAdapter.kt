@@ -51,7 +51,7 @@ class CreatureWithFoodAdapter(private val creatures: MutableList<Creature>) :
                 LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
             itemView.foodRecyclerView.adapter = adapter
 
-            val foods = CreatureStore.getCretureFoods(creature)
+            val foods = CreatureStore.getCreatureFoods(creature)
             adapter.updateFoods(foods)
         }
 

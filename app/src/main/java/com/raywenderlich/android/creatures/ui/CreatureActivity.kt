@@ -118,7 +118,7 @@ class CreatureActivity : AppCompatActivity() {
     private fun setupFoods() {
         foodRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
         foodRecyclerView.adapter = adapter
-        val foods = CreatureStore.getCretureFoods(creature)
+        val foods = CreatureStore.getCreatureFoods(creature)
         adapter.updateFoods(foods)
     }
 }
