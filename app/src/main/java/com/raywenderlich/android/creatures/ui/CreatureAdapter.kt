@@ -1,5 +1,6 @@
 package com.raywenderlich.android.creatures.ui
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -48,6 +49,7 @@ class CreatureAdapter(private val creatures: MutableList<Creature>) :
         holder.bind(creatures[position])
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateCreatures(creatures: List<Creature>) {
         this.creatures.clear()
         this.creatures.addAll(creatures)
