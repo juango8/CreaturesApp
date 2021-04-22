@@ -71,19 +71,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupViewPager() {
 
-        viewPager.adapter =
-            object : FragmentPagerAdapter(
-                supportFragmentManager,
-                BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-            ) {
-                override fun getItem(position: Int): Fragment {
-                    if (position == 1) {
-                        return FavoritesFragment.newInstance()
-                    }
-                    return AllFragment.newInstance()
+        viewPager.adapter = object :
+            FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            override fun getItem(position: Int): Fragment {
+                if (position == 1) {
+                    return FavoritesFragment.newInstance()
                 }
-
-                override fun getCount() = 2
+                return AllFragment.newInstance()
             }
+
+            override fun getCount() = 2
+        }
     }
 }

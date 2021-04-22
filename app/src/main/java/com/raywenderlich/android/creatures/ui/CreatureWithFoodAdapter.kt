@@ -29,11 +29,7 @@ class CreatureWithFoodAdapter(private val creatures: MutableList<Creature>) :
             this.creature = creature
             val context = itemView.context
             itemView.creatureImage.setImageResource(
-                context.resources.getIdentifier(
-                    creature.uri,
-                    null,
-                    context.packageName
-                )
+                context.resources.getIdentifier(creature.uri, null, context.packageName)
             )
             setupFoods()
         }

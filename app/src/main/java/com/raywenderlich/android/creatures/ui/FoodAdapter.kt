@@ -19,11 +19,7 @@ class FoodAdapter(private val foods: MutableList<Food>) :
             this.food = food
             val context = itemView.context
             itemView.foodImage.setImageResource(
-                context.resources.getIdentifier(
-                    food.thumbnail,
-                    null,
-                    context.packageName
-                )
+                context.resources.getIdentifier(food.thumbnail, null, context.packageName)
             )
         }
 

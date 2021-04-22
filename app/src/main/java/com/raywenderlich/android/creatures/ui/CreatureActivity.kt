@@ -33,7 +33,6 @@ package com.raywenderlich.android.creatures.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -116,7 +115,8 @@ class CreatureActivity : AppCompatActivity() {
     }
 
     private fun setupFoods() {
-        foodRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
+        foodRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         foodRecyclerView.adapter = adapter
         val foods = CreatureStore.getCreatureFoods(creature)
         adapter.updateFoods(foods)
