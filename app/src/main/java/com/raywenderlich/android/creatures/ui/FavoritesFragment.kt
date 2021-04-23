@@ -79,9 +79,8 @@ class FavoritesFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity?.let {
-            val composites = CreatureStore.getFavoriteComposites(it)
-            composites.let { compositeList ->
-                adapter.updateCreatures(compositeList)
+            CreatureStore.getFavoriteCreatures(it)?.let { favorites ->
+                adapter.updateCreatures(favorites)
             }
         }
     }
