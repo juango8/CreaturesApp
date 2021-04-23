@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,14 @@ import kotlinx.android.synthetic.main.list_item_creature_card.view.*
 class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
     RecyclerView.Adapter<CreatureCardAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : View.OnClickListener, RecyclerView.ViewHolder(itemView) {
+    enum class ScrollDirection {
+        UP, DOWN
+    }
+
+    var scrollDirection = ScrollDirection.DOWN
+
+    inner class ViewHolder(itemView: View) : View.OnClickListener,
+        RecyclerView.ViewHolder(itemView) {
         private lateinit var creature: Creature
 
         init {
@@ -31,6 +39,7 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
             itemView.creatureImage.setImageResource(imageResource)
             itemView.fullName.text = creature.fullName
             setBackgroundColors(context, imageResource)
+            animateView(itemView)
         }
 
         override fun onClick(view: View?) {
@@ -56,6 +65,16 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
                     val textColor = if (isColorDark(backgroundColor)) Color.WHITE else Color.BLACK
                     itemView.fullName.setTextColor(textColor)
                 }
+            }
+        }
+
+        private fun animateView(viewToAnimate: View) {
+            if (viewToAnimate.animation == null) {
+                val animId =
+                    if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
+                val animation =
+                    AnimationUtils.loadAnimation(viewToAnimate.context, animId)
+                viewToAnimate.animation = animation
             }
         }
 
