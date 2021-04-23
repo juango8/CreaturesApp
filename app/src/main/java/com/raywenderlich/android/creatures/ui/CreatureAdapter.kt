@@ -11,9 +11,10 @@ import com.raywenderlich.android.creatures.model.CompositeItem
 import com.raywenderlich.android.creatures.model.Creature
 import kotlinx.android.synthetic.main.list_item_creature.view.*
 import kotlinx.android.synthetic.main.list_item_planet_header.view.*
+import java.util.*
 
 class CreatureAdapter(private val compositeItems: MutableList<CompositeItem>) :
-    RecyclerView.Adapter<CreatureAdapter.ViewHolder>() {
+    RecyclerView.Adapter<CreatureAdapter.ViewHolder>(), ItemTouchHelperListener {
 
     class ViewHolder(itemView: View) : View.OnClickListener, RecyclerView.ViewHolder(itemView) {
         private lateinit var creature: Creature
@@ -51,7 +52,6 @@ class CreatureAdapter(private val compositeItems: MutableList<CompositeItem>) :
                 viewToAnimate.animation = animation
             }
         }
-
     }
 
     enum class ViewType {
@@ -86,6 +86,24 @@ class CreatureAdapter(private val compositeItems: MutableList<CompositeItem>) :
         this.compositeItems.clear()
         this.compositeItems.addAll(creatures)
         notifyDataSetChanged()
+    }
+
+    override fun onItemMove(
+        recyclerView: RecyclerView,
+        fromPosition: Int,
+        toPosition: Int
+    ): Boolean {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(compositeItems, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(compositeItems, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
 
 }
