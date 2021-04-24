@@ -38,14 +38,16 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.android.creatures.R
 import com.raywenderlich.android.creatures.model.CreatureStore
 import kotlinx.android.synthetic.main.fragment_favorites.*
 
 
-class FavoritesFragment : Fragment() {
+class FavoritesFragment : Fragment(), ItemDragListener {
 
-    private val adapter = CreatureAdapter(mutableListOf())
+    private val adapter = CreatureAdapter(mutableListOf(), this)
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     companion object {
         fun newInstance(): FavoritesFragment {
@@ -85,8 +87,12 @@ class FavoritesFragment : Fragment() {
         }
     }
 
+    override fun onItemDrag(viewHolder: RecyclerView.ViewHolder) {
+        itemTouchHelper.startDrag(viewHolder)
+    }
+
     private fun setupItemTouchHelper() {
-        val itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
+        itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
         itemTouchHelper.attachToRecyclerView(favoritesRecyclerView)
     }
 
