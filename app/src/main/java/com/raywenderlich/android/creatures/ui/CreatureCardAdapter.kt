@@ -148,4 +148,6 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
         return true
     }
 
+    override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {}
+
 }

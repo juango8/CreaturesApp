@@ -113,4 +113,10 @@ class CreatureAdapter(
         return true
     }
 
+    override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        Favorites.removeFavorite(creatures[position], viewHolder.itemView.context)
+        creatures.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
 }
