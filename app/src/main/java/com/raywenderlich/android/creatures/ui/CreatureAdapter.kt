@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.android.creatures.R
 import com.raywenderlich.android.creatures.app.inflate
@@ -20,6 +22,12 @@ class CreatureAdapter(
 ) :
     RecyclerView.Adapter<CreatureAdapter.ViewHolder>(), ItemTouchHelperListener {
 
+    var tracker: SelectionTracker<Long>? = null
+
+    init {
+        setHasStableIds(true)
+    }
+
     inner class ViewHolder(itemView: View) : View.OnClickListener,
         RecyclerView.ViewHolder(itemView), ItemSelectedListener {
         private lateinit var creature: Creature
@@ -28,8 +36,14 @@ class CreatureAdapter(
             itemView.setOnClickListener(this)
         }
 
+        fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
+            object : ItemDetailsLookup.ItemDetails<Long>() {
+                override fun getPosition(): Int = absoluteAdapterPosition
+                override fun getSelectionKey(): Long? = itemId
+            }
+
         @SuppressLint("ClickableViewAccessibility")
-        fun bind(creature: Creature) {
+        fun bind(creature: Creature, isSelected: Boolean) {
             this.creature = creature
             val context = itemView.context
             itemView.creatureImage.setImageResource(
@@ -37,6 +51,13 @@ class CreatureAdapter(
             )
             itemView.fullName.text = creature.fullName
             itemView.nickname.text = creature.nickname
+            if (isSelected) {
+                itemView.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.selectedItem)
+                )
+            } else {
+                itemView.setBackgroundColor(0)
+            }
             itemView.handle.setOnTouchListener { _, event ->
                 if (event.action == MotionEvent.ACTION_DOWN) {
                     itemDragListener.onItemDrag(this)
@@ -84,8 +105,11 @@ class CreatureAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(creatures[position])
+        val isSelected = tracker?.isSelected(position.toLong()) ?: false
+        holder.bind(creatures[position], isSelected)
     }
+
+    override fun getItemId(position: Int): Long = position.toLong()
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateCreatures(creatures: List<Creature>) {

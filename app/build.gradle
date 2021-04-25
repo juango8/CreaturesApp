@@ -34,5 +34,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
 }
