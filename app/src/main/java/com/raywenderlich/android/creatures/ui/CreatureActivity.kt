@@ -123,12 +123,10 @@ class CreatureActivity : AppCompatActivity() {
         val foods = CreatureStore.getCreatureFoods(creature)
         adapter.updateFoods(foods)
         val dividerWidthInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
-        this.let {
-            foodRecyclerView.addItemDecoration(
-                FoodItemDecoration(
-                    ContextCompat.getColor(it, R.color.black), dividerWidthInPixels
-                )
+        foodRecyclerView.addItemDecoration(
+            FoodItemDecoration(
+                ContextCompat.getColor(this, R.color.black), dividerWidthInPixels
             )
-        }
+        )
     }
 }

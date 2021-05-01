@@ -1,10 +1,8 @@
 package com.raywenderlich.android.creatures.ui
 
 import android.annotation.SuppressLint
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
@@ -12,15 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.android.creatures.R
 import com.raywenderlich.android.creatures.app.inflate
 import com.raywenderlich.android.creatures.model.Creature
-import com.raywenderlich.android.creatures.model.Favorites
 import kotlinx.android.synthetic.main.list_item_creature.view.*
-import java.util.*
 
-class CreatureAdapter(
-    private val creatures: MutableList<Creature>,
-    private val itemDragListener: ItemDragListener
-) :
-    RecyclerView.Adapter<CreatureAdapter.ViewHolder>(), ItemTouchHelperListener {
+class CreatureAdapter(private val creatures: MutableList<Creature>) :
+    RecyclerView.Adapter<CreatureAdapter.ViewHolder>() {
 
     var tracker: SelectionTracker<Long>? = null
 
@@ -28,8 +21,7 @@ class CreatureAdapter(
         setHasStableIds(true)
     }
 
-    inner class ViewHolder(itemView: View) : View.OnClickListener,
-        RecyclerView.ViewHolder(itemView), ItemSelectedListener {
+    class ViewHolder(itemView: View) : View.OnClickListener, RecyclerView.ViewHolder(itemView) {
         private lateinit var creature: Creature
 
         init {
@@ -58,13 +50,7 @@ class CreatureAdapter(
             } else {
                 itemView.setBackgroundColor(0)
             }
-            itemView.handle.setOnTouchListener { _, event ->
-                if (event.action == MotionEvent.ACTION_DOWN) {
-                    itemDragListener.onItemDrag(this)
-                }
-                false
-            }
-            animateView(itemView)
+
         }
 
         override fun onClick(view: View?) {
@@ -72,26 +58,6 @@ class CreatureAdapter(
                 val context = it.context
                 val intent = CreatureActivity.newIntent(context, creature.id)
                 context.startActivity(intent)
-            }
-        }
-
-        override fun onItemSelected() {
-            itemView.listItemContainer.setBackgroundColor(
-                ContextCompat.getColor(
-                    itemView.context,
-                    R.color.selectedItem
-                )
-            )
-        }
-
-        override fun onItemCleared() {
-            itemView.listItemContainer.setBackgroundColor(0)
-        }
-
-        private fun animateView(viewToAnimate: View) {
-            if (viewToAnimate.animation == null) {
-                val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.scale_xy)
-                viewToAnimate.animation = animation
             }
         }
 
@@ -116,31 +82,6 @@ class CreatureAdapter(
         this.creatures.clear()
         this.creatures.addAll(creatures)
         notifyDataSetChanged()
-    }
-
-    override fun onItemMove(
-        recyclerView: RecyclerView,
-        fromPosition: Int,
-        toPosition: Int
-    ): Boolean {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(creatures, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(creatures, i, i - 1)
-            }
-        }
-        Favorites.saveFavorites(creatures.map { it.id }, recyclerView.context)
-        notifyItemMoved(fromPosition, toPosition)
-        return true
-    }
-
-    override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        Favorites.removeFavorite(creatures[position], viewHolder.itemView.context)
-        creatures.removeAt(position)
-        notifyItemRemoved(position)
     }
 
 }

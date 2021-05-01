@@ -34,8 +34,8 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.raywenderlich.android.creatures.R
 import com.raywenderlich.android.creatures.model.CreatureStore
 import kotlinx.android.synthetic.main.fragment_all.*
@@ -44,7 +44,7 @@ import kotlinx.android.synthetic.main.fragment_all.*
 class AllFragment : Fragment() {
 
     private val adapter = CreatureCardAdapter(CreatureStore.getCreatures().toMutableList())
-    private lateinit var layoutManager: GridLayoutManager
+    private lateinit var layoutManager: StaggeredGridLayoutManager
     private lateinit var listItemDecoration: RecyclerView.ItemDecoration
     private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
     private lateinit var listMenuItem: MenuItem
@@ -81,12 +81,7 @@ class AllFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutManager = GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return (adapter.spanSizeAtPosition(position))
-            }
-        }
+        layoutManager = StaggeredGridLayoutManager(2, GridLayoutManager.VERTICAL)
 
         creatureRecyclerView.layoutManager = layoutManager
         creatureRecyclerView.adapter = adapter
@@ -106,7 +101,7 @@ class AllFragment : Fragment() {
                 }
             }
         })
-        setupItemTouchHelper()
+
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -147,14 +142,8 @@ class AllFragment : Fragment() {
         removeItemDecoration: RecyclerView.ItemDecoration
     ) {
         layoutManager.spanCount = spanCount
-        adapter.jupiterSpanSize = spanCount
         creatureRecyclerView.removeItemDecoration(removeItemDecoration)
         creatureRecyclerView.addItemDecoration(addItemDecoration)
-    }
-
-    private fun setupItemTouchHelper() {
-        val itemTouchHelper = ItemTouchHelper(GridItemTouchHelperCallback(adapter))
-        itemTouchHelper.attachToRecyclerView(creatureRecyclerView)
     }
 
 }

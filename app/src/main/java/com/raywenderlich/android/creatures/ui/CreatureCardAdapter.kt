@@ -5,34 +5,22 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.raywenderlich.android.creatures.R
-import com.raywenderlich.android.creatures.app.Constants
 import com.raywenderlich.android.creatures.app.inflate
 import com.raywenderlich.android.creatures.model.Creature
-import kotlinx.android.synthetic.main.list_item_creature_card.view.creatureCard
-import kotlinx.android.synthetic.main.list_item_creature_card.view.creatureImage
-import kotlinx.android.synthetic.main.list_item_creature_card.view.fullName
-import kotlinx.android.synthetic.main.list_item_creature_card.view.nameHolder
-import kotlinx.android.synthetic.main.list_item_creature_card_jupiter.view.*
-import java.util.*
+import kotlinx.android.synthetic.main.list_item_creature_card.view.*
 
 class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
-    RecyclerView.Adapter<CreatureCardAdapter.ViewHolder>(), ItemTouchHelperListener {
+    RecyclerView.Adapter<CreatureCardAdapter.ViewHolder>() {
 
     enum class ScrollDirection {
         UP, DOWN
     }
 
-    enum class ViewType {
-        JUPITER, MARS, OTHER
-    }
-
     var scrollDirection = ScrollDirection.DOWN
-    var jupiterSpanSize = 2
 
     inner class ViewHolder(itemView: View) : View.OnClickListener,
         RecyclerView.ViewHolder(itemView) {
@@ -50,7 +38,6 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
             itemView.creatureImage.setImageResource(imageResource)
             itemView.fullName.text = creature.fullName
             setBackgroundColors(context, imageResource)
-            animateView(itemView)
         }
 
         override fun onClick(view: View?) {
@@ -75,19 +62,10 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
                     itemView.nameHolder.setBackgroundColor(backgroundColor)
                     val textColor = if (isColorDark(backgroundColor)) Color.WHITE else Color.BLACK
                     itemView.fullName.setTextColor(textColor)
-                    if (itemView.slogan != null) {
-                        itemView.slogan.setTextColor(textColor)
-                    }
                 }
             }
         }
 
-        private fun animateView(viewToAnimate: View) {
-            if (viewToAnimate.animation == null) {
-                val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.scale_xy)
-                viewToAnimate.animation = animation
-            }
-        }
 
         private fun isColorDark(color: Int): Boolean {
             val darkness = 1 - (0.299 * Color.red(color) +
@@ -99,12 +77,7 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return when (viewType) {
-            ViewType.OTHER.ordinal -> ViewHolder(parent.inflate(R.layout.list_item_creature_card))
-            ViewType.JUPITER.ordinal -> ViewHolder(parent.inflate(R.layout.list_item_creature_card_jupiter))
-            ViewType.MARS.ordinal -> ViewHolder(parent.inflate(R.layout.list_item_creature_card_mars))
-            else -> throw IllegalArgumentException()
-        }
+        return ViewHolder(parent.inflate(R.layout.list_item_creature_card))
     }
 
     override fun getItemCount() = creatures.size
@@ -113,41 +86,5 @@ class CreatureCardAdapter(private val creatures: MutableList<Creature>) :
         holder.bind(creatures[position])
     }
 
-    override fun getItemViewType(position: Int): Int {
-        val creature = creatures[position]
-        return when (creature.planet) {
-            Constants.JUPITER -> ViewType.JUPITER.ordinal
-            Constants.MARS -> ViewType.MARS.ordinal
-            else -> ViewType.OTHER.ordinal
-        }
-    }
-
-    fun spanSizeAtPosition(position: Int): Int {
-        return if (creatures[position].planet == Constants.JUPITER) {
-            jupiterSpanSize
-        } else {
-            1
-        }
-    }
-
-    override fun onItemMove(
-        recyclerView: RecyclerView,
-        fromPosition: Int,
-        toPosition: Int
-    ): Boolean {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(creatures, i, i + 1)
-            }
-        } else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(creatures, i, i - 1)
-            }
-        }
-        notifyItemMoved(fromPosition, toPosition)
-        return true
-    }
-
-    override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {}
 
 }
